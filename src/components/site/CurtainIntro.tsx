@@ -251,7 +251,7 @@ export function CurtainIntro() {
         ref={videoRef}
         src="/vidssave.com Curtain Swing Open Animation 1080p_1.mp4"
         autoPlay
-     
+        muted
         playsInline
         preload="auto"
         onCanPlay={() => {

@@ -1,285 +1,285 @@
 
-// import { useEffect, useRef, useState } from "react";
-
-// type Phase = "curtain" | "logo" | "fade" | "done";
-
-// export function CurtainIntro() {
-//   const [phase, setPhase] = useState<Phase>("curtain");
-//   const videoRef = useRef<HTMLVideoElement>(null);
-
-//   // Lock scrolling only while intro is visible
-//   useEffect(() => {
-//     if (phase === "done") {
-//       document.body.style.overflow = "";
-//       document.documentElement.style.overflow = "";
-//     } else {
-//       document.body.style.overflow = "hidden";
-//       document.documentElement.style.overflow = "hidden";
-//     }
-
-//     return () => {
-//       document.body.style.overflow = "";
-//       document.documentElement.style.overflow = "";
-//     };
-//   }, [phase]);
-
-//   // Show logo immediately when video ends
-//   const handleVideoEnd = () => {
-//     setPhase((current) =>
-//       current === "curtain" ? "logo" : current
-//     );
-//   };
-
-//   // Fallback if video end event does not fire
-//   useEffect(() => {
-//     if (phase !== "curtain") return;
-
-//     const timer = window.setTimeout(() => {
-//       setPhase("logo");
-//     }, 8000);
-
-//     return () => window.clearTimeout(timer);
-//   }, [phase]);
-
-//   // Keep logo visible before fading out
-//   useEffect(() => {
-//     if (phase !== "logo") return;
-
-//     const timer = window.setTimeout(() => {
-//       setPhase("fade");
-//     }, 5500);
-
-//     return () => window.clearTimeout(timer);
-//   }, [phase]);
-
-//   // Reveal main website after logo fades
-//   useEffect(() => {
-//     if (phase !== "fade") return;
-
-//     const timer = window.setTimeout(() => {
-//       setPhase("done");
-//     }, 2200);
-
-//     return () => window.clearTimeout(timer);
-//   }, [phase]);
-
-//   const skipIntro = () => {
-//     setPhase("done");
-//   };
-
-//   if (phase === "done") return null;
-
-//   const logoVisible = phase === "logo";
-//   const fading = phase === "fade";
-
-//   return (
-//     <div
-//       className="er-intro fixed inset-0 z-[100] overflow-hidden bg-black"
-//       aria-hidden="true"
-//     >
-//       {/* BACKGROUND */}
-
-//       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#17100b_0%,#080604_55%,#000_100%)]" />
-
-//       {/* GOLDEN AMBIENT LIGHT */}
-
-//       <div
-//         className={`absolute left-1/2 top-1/2 h-[65vw] w-[65vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(211,155,75,0.2),transparent_65%)] blur-3xl transition-opacity duration-[2500ms] ${
-//           logoVisible ? "opacity-100" : "opacity-0"
-//         }`}
-//       />
-
-//       {/* CURTAIN VIDEO */}
-
-//       <video
-//         ref={videoRef}
-//         src="/vidssave.com Curtain Swing Open Animation 1080p.mp4"
-//         autoPlay
-//         muted
-//         playsInline
-//         preload="auto"
-//         onEnded={handleVideoEnd}
-//         onError={handleVideoEnd}
-//         className={`absolute inset-0 z-20 h-full w-full object-cover transition-opacity duration-1000 ease-in-out ${
-//           phase === "curtain"
-//             ? "opacity-100"
-//             : "pointer-events-none opacity-0"
-//         }`}
-//       />
-
-//       {/* ELECTRORAMA LOGO REVEAL */}
-
-//       <div
-//         className={`absolute inset-0 z-10 flex items-center justify-center px-5 transition-opacity duration-[2200ms] ease-in-out ${
-//           fading ? "opacity-0" : "opacity-100"
-//         }`}
-//       >
-//         <div
-//           className={`relative flex flex-col items-center justify-center transition-[opacity,filter] duration-[4000ms] ease-in-out ${
-//             logoVisible
-//               ? "opacity-100 blur-0"
-//               : "opacity-0 blur-sm"
-//           }`}
-//         >
-//           {/* GOLDEN LIGHT BEHIND LOGO */}
-
-//           <div
-//             className={`absolute inset-0 -z-10 scale-150 rounded-full bg-[radial-gradient(circle,rgba(231,177,91,0.3),transparent_65%)] blur-3xl transition-opacity duration-[2500ms] ${
-//               logoVisible ? "opacity-100" : "opacity-0"
-//             }`}
-//           />
-
-//           {/* ACTUAL ELECTRORAMA LOGO */}
-
-//           <div className="relative overflow-hidden">
-//             <img
-//               src="/Electrorama-logo-(PNG)-1.png"
-//               alt="Electrorama"
-//               onLoad={() => console.log("Electrorama logo loaded")}
-//               onError={() =>
-//                 console.error("Electrorama logo could not be loaded")
-//               }
-//               className="block max-h-[65vh] max-w-[90vw] object-contain "
-//             />
-
-//             {/* GOLDEN LIGHT SWEEP */}
-
-//             <div
-//               className={`pointer-events-none absolute inset-y-0 left-[-60%] w-[35%] skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/70 to-transparent blur-sm ${
-//                 logoVisible
-//                   ? "animate-[electrorama-shine_2.8s_ease-in-out_1.5s_1_forwards]"
-//                   : "opacity-0"
-//               }`}
-//             />
-//           </div>
-
-//           {/* TAGLINE */}
-
-//           <p
-//             className={`mt-5 text-center font-display text-xs uppercase tracking-[0.45em] text-[#e8c58c] transition-opacity duration-[2500ms] delay-500 sm:text-base ${
-//               logoVisible ? "opacity-100" : "opacity-0"
-//             }`}
-//           >
-//             SOUND • VISION • EXPERIENCE
-//           </p>
-
-//           {/* GOLDEN UNDERLINE */}
-
-//           <div
-//             className={`mt-6 h-px bg-gradient-to-r from-transparent via-[#e5b35e] to-transparent transition-all duration-[2000ms] delay-700 ${
-//               logoVisible ? "w-64 sm:w-96" : "w-0"
-//             }`}
-//           />
-//         </div>
-//       </div>
-
-//       {/* SKIP INTRO */}
-
-//       <button
-//         onClick={skipIntro}
-//         className="absolute bottom-6 right-6 z-30 rounded-full border border-[#d8ad69]/50 bg-black/40 px-5 py-2.5 text-[10px] uppercase tracking-[0.25em] text-[#e8c58c] backdrop-blur-md transition hover:bg-[#d8ad69]/20"
-//       >
-//         Skip Intro →
-//       </button>
-//     </div>
-//   );
-// }
-
-
-// 2nd with one vieo
-
 import { useEffect, useRef, useState } from "react";
 
+type Phase = "curtain" | "logo" | "fade" | "done";
+
 export function CurtainIntro() {
-  const [finished, setFinished] = useState(false);
-  const [fadeOut, setFadeOut] = useState(false);
+  const [phase, setPhase] = useState<Phase>("curtain");
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  // Lock scrolling only while intro is visible
   useEffect(() => {
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.overflow = "hidden";
+    if (phase === "done") {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    } else {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    }
 
     return () => {
       document.body.style.overflow = "";
       document.documentElement.style.overflow = "";
     };
-  }, []);
+  }, [phase]);
 
-  // Start video as soon as it is ready
-  const startVideo = async () => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    try {
-      video.currentTime = 0;
-      await video.play();
-    } catch (error) {
-      console.error("Video playback failed:", error);
-    }
+  // Show logo immediately when video ends
+  const handleVideoEnd = () => {
+    setPhase((current) =>
+      current === "curtain" ? "logo" : current
+    );
   };
 
+  // Fallback if video end event does not fire
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
+    if (phase !== "curtain") return;
 
-    video.load();
+    const timer = window.setTimeout(() => {
+      setPhase("logo");
+    }, 8000);
 
-    if (video.readyState >= 2) {
-      startVideo();
-    }
-  }, []);
+    return () => window.clearTimeout(timer);
+  }, [phase]);
 
-  const finishIntro = () => {
-    setFadeOut(true);
+  // Keep logo visible before fading out
+  useEffect(() => {
+    if (phase !== "logo") return;
 
-    setTimeout(() => {
-      setFinished(true);
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-    }, 1200);
+    const timer = window.setTimeout(() => {
+      setPhase("fade");
+    }, 5500);
+
+    return () => window.clearTimeout(timer);
+  }, [phase]);
+
+  // Reveal main website after logo fades
+  useEffect(() => {
+    if (phase !== "fade") return;
+
+    const timer = window.setTimeout(() => {
+      setPhase("done");
+    }, 2200);
+
+    return () => window.clearTimeout(timer);
+  }, [phase]);
+
+  const skipIntro = () => {
+    setPhase("done");
   };
 
-  if (finished) return null;
+  if (phase === "done") return null;
+
+  const logoVisible = phase === "logo";
+  const fading = phase === "fade";
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] overflow-hidden bg-black transition-opacity duration-[1200ms] ease-in-out ${
-        fadeOut ? "pointer-events-none opacity-0" : "opacity-100"
-      }`}
+      className="er-intro fixed inset-0 z-[100] overflow-hidden bg-black"
+      aria-hidden="true"
     >
+      {/* BACKGROUND */}
+
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#17100b_0%,#080604_55%,#000_100%)]" />
+
+      {/* GOLDEN AMBIENT LIGHT */}
+
+      <div
+        className={`absolute left-1/2 top-1/2 h-[65vw] w-[65vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(211,155,75,0.2),transparent_65%)] blur-3xl transition-opacity duration-[2500ms] ${
+          logoVisible ? "opacity-100" : "opacity-0"
+        }`}
+      />
+
+      {/* CURTAIN VIDEO */}
+
       <video
         ref={videoRef}
-        src="/vidssave.com Curtain Swing Open Animation 1080p_1.mp4"
+        src="/vidssave.com Curtain Swing Open Animation 1080p.mp4"
         autoPlay
         muted
         playsInline
         preload="auto"
-        onCanPlay={() => {
-          const video = videoRef.current;
-          if (video && video.paused) {
-            video.play().catch((error) =>
-              console.error("Video playback failed:", error)
-            );
-          }
-        }}
-        onEnded={finishIntro}
-        onError={() => {
-          console.error("Unable to load /Light sweep 01.mp4");
-        }}
-        className="absolute inset-0 h-full w-full object-contain"
+        onEnded={handleVideoEnd}
+        onError={handleVideoEnd}
+        className={`absolute inset-0 z-20 h-full w-full object-cover transition-opacity duration-1000 ease-in-out ${
+          phase === "curtain"
+            ? "opacity-100"
+            : "pointer-events-none opacity-0"
+        }`}
       />
 
-      <div className="pointer-events-none absolute inset-0 bg-black/10" />
+      {/* ELECTRORAMA LOGO REVEAL */}
+
+      <div
+        className={`absolute inset-0 z-10 flex items-center justify-center px-5 transition-opacity duration-[2200ms] ease-in-out ${
+          fading ? "opacity-0" : "opacity-100"
+        }`}
+      >
+        <div
+          className={`relative flex flex-col items-center justify-center transition-[opacity,filter] duration-[4000ms] ease-in-out ${
+            logoVisible
+              ? "opacity-100 blur-0"
+              : "opacity-0 blur-sm"
+          }`}
+        >
+          {/* GOLDEN LIGHT BEHIND LOGO */}
+
+          <div
+            className={`absolute inset-0 -z-10 scale-150 rounded-full bg-[radial-gradient(circle,rgba(231,177,91,0.3),transparent_65%)] blur-3xl transition-opacity duration-[2500ms] ${
+              logoVisible ? "opacity-100" : "opacity-0"
+            }`}
+          />
+
+          {/* ACTUAL ELECTRORAMA LOGO */}
+
+          <div className="relative overflow-hidden">
+            <img
+              src="/Electrorama-logo-(PNG)-1.png"
+              alt="Electrorama"
+              onLoad={() => console.log("Electrorama logo loaded")}
+              onError={() =>
+                console.error("Electrorama logo could not be loaded")
+              }
+              className="block max-h-[65vh] max-w-[90vw] object-contain "
+            />
+
+            {/* GOLDEN LIGHT SWEEP */}
+
+            <div
+              className={`pointer-events-none absolute inset-y-0 left-[-60%] w-[35%] skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/70 to-transparent blur-sm ${
+                logoVisible
+                  ? "animate-[electrorama-shine_2.8s_ease-in-out_1.5s_1_forwards]"
+                  : "opacity-0"
+              }`}
+            />
+          </div>
+
+          {/* TAGLINE */}
+
+          <p
+            className={`mt-5 text-center font-display text-xs uppercase tracking-[0.45em] text-[#e8c58c] transition-opacity duration-[2500ms] delay-500 sm:text-base ${
+              logoVisible ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            SOUND • VISION • EXPERIENCE
+          </p>
+
+          {/* GOLDEN UNDERLINE */}
+
+          <div
+            className={`mt-6 h-px bg-gradient-to-r from-transparent via-[#e5b35e] to-transparent transition-all duration-[2000ms] delay-700 ${
+              logoVisible ? "w-64 sm:w-96" : "w-0"
+            }`}
+          />
+        </div>
+      </div>
+
+      {/* SKIP INTRO */}
 
       <button
-        onClick={finishIntro}
-        className="absolute bottom-7 right-7 z-20 rounded-full border border-[#d8ad69]/50 bg-black/50 px-6 py-3 text-[10px] font-medium uppercase tracking-[0.25em] text-[#e8c58c] backdrop-blur-md transition-all duration-300 hover:border-[#e8c58c] hover:bg-[#d8ad69]/20"
+        onClick={skipIntro}
+        className="absolute bottom-6 right-6 z-30 rounded-full border border-[#d8ad69]/50 bg-black/40 px-5 py-2.5 text-[10px] uppercase tracking-[0.25em] text-[#e8c58c] backdrop-blur-md transition hover:bg-[#d8ad69]/20"
       >
         Skip Intro →
       </button>
     </div>
   );
 }
+
+
+// 2nd with one vieo
+
+// import { useEffect, useRef, useState } from "react";
+
+// export function CurtainIntro() {
+//   const [finished, setFinished] = useState(false);
+//   const [fadeOut, setFadeOut] = useState(false);
+//   const videoRef = useRef<HTMLVideoElement>(null);
+
+//   useEffect(() => {
+//     document.body.style.overflow = "hidden";
+//     document.documentElement.style.overflow = "hidden";
+
+//     return () => {
+//       document.body.style.overflow = "";
+//       document.documentElement.style.overflow = "";
+//     };
+//   }, []);
+
+//   // Start video as soon as it is ready
+//   const startVideo = async () => {
+//     const video = videoRef.current;
+//     if (!video) return;
+
+//     try {
+//       video.currentTime = 0;
+//       await video.play();
+//     } catch (error) {
+//       console.error("Video playback failed:", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     const video = videoRef.current;
+//     if (!video) return;
+
+//     video.load();
+
+//     if (video.readyState >= 2) {
+//       startVideo();
+//     }
+//   }, []);
+
+//   const finishIntro = () => {
+//     setFadeOut(true);
+
+//     setTimeout(() => {
+//       setFinished(true);
+//       document.body.style.overflow = "";
+//       document.documentElement.style.overflow = "";
+//     }, 1200);
+//   };
+
+//   if (finished) return null;
+
+//   return (
+//     <div
+//       className={`fixed inset-0 z-[9999] overflow-hidden bg-black transition-opacity duration-[1200ms] ease-in-out ${
+//         fadeOut ? "pointer-events-none opacity-0" : "opacity-100"
+//       }`}
+//     >
+//       <video
+//         ref={videoRef}
+//         src="/vidssave.com Curtain Swing Open Animation 1080p_1.mp4"
+//         autoPlay
+//         muted
+//         playsInline
+//         preload="auto"
+//         onCanPlay={() => {
+//           const video = videoRef.current;
+//           if (video && video.paused) {
+//             video.play().catch((error) =>
+//               console.error("Video playback failed:", error)
+//             );
+//           }
+//         }}
+//         onEnded={finishIntro}
+//         onError={() => {
+//           console.error("Unable to load /Light sweep 01.mp4");
+//         }}
+//         className="absolute inset-0 h-full w-full object-contain"
+//       />
+
+//       <div className="pointer-events-none absolute inset-0 bg-black/10" />
+
+//       <button
+//         onClick={finishIntro}
+//         className="absolute bottom-7 right-7 z-20 rounded-full border border-[#d8ad69]/50 bg-black/50 px-6 py-3 text-[10px] font-medium uppercase tracking-[0.25em] text-[#e8c58c] backdrop-blur-md transition-all duration-300 hover:border-[#e8c58c] hover:bg-[#d8ad69]/20"
+//       >
+//         Skip Intro →
+//       </button>
+//     </div>
+//   );
+// }
 
 
 // import { useEffect, useRef, useState } from "react";

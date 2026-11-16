@@ -277,7 +277,7 @@ export function CurtainIntro() {
       {/* CURTAIN VIDEO */}
       <video
         ref={videoRef}
-        src="/vidssave.com Curtain Swing Open Animation 1080p_1.mp4"
+        src="/vidssave.com Curtain Swing Open Animation 1080p.mp4"
         autoPlay
         muted
         playsInline

@@ -6,6 +6,21 @@
 
 /* Electrorama logo cinematic zoom */
 
+.er-services-roll {
+  animation: er-services-credits 20s linear infinite;
+  will-change: transform;
+}
+
+@keyframes er-services-credits {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+
 .er-logo-zoom {
   animation: electrorama-logo-zoom 2.8s
     cubic-bezier(0.16, 1, 0.3, 1) forwards;

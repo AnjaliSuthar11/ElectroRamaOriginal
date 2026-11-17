@@ -300,7 +300,7 @@ export function CurtainIntro() {
       <div className="pointer-events-none absolute inset-0 bg-black/10" />
 
       {/* SOUND BUTTON */}
-      <button
+      {/* <button
         onClick={toggleSound}
         className="absolute bottom-7 left-7 z-30 flex items-center gap-3 rounded-full border border-[#d8ad69]/50 bg-black/60 px-5 py-3 text-[10px] font-medium uppercase tracking-[0.25em] text-[#e8c58c] backdrop-blur-md transition-all duration-300 hover:border-[#e8c58c] hover:bg-[#d8ad69]/20"
       >
@@ -315,7 +315,7 @@ export function CurtainIntro() {
             Enable Sound
           </>
         )}
-      </button>
+      </button> */}
 
       {/* SKIP INTRO */}
       <button
